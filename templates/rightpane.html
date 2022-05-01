@@ -1,0 +1,73 @@
+{% load static %}
+
+</script>
+<!--right pane-->
+<div 
+  id="right-pane"
+  class="border border-red-500 w-full h-screen flex flex-col overflow-hidden"
+>
+  <!--content-->
+  <div
+    class="flex space-x-2 h-18 items-center border border-black p-2 bg-white"
+  >
+    <div class="w-12 h-12 rounded-full overflow-hidden">
+      <img src="{{user.profile.avatar.url}}" alt="user-avatar" />
+    </div>
+    <p class="text-sm">{{username|title}}</p>
+  </div>
+
+  <!--message-->
+  <div class="bg-slate-200 p-2 h-full overflow-auto">
+    <!--parent of the list-->
+    <ul id="chat-log" class="flex flex-col space-y-3 text-sm">
+      <li class="hidden"></li>
+      {% for message in messages reversed %}
+      <!--list-->
+      <li
+        class="{% if message.sender.id == request.user.id %}flex flex-col items-end{% endif %}"
+      >
+        <!--div wrapper of img div and div for message-->
+        <div class="flex space-x-2">
+          {% if message.sender.id != request.user.id %}
+          <!--div for img-->
+          <div class="flex-none w-8 h-8 rounded-full overflow-hidden">
+            <img src="{{username.profile.avatar.url}}" alt="user-avatar" />
+          </div>
+          {% endif %}
+          <!--div message-->
+          <div
+            class="overflow-hidden flex rounded-3xl text-sm py-2 px-4 {% if message.sender.id == request.user.id %}bg-sky-400{% else %}bg-gray-400{% endif %}"
+          >
+            <!--p tag for message-->
+            <p
+              class="text-sm {% if message.sender.id == request.user.id %}text-gray-900{% else %}text-black{% endif %}"
+            >
+              {{message.message}}
+            </p>
+          </div>
+        </div>
+        <!--div for timestamp-->
+        <div class="text-xs mt-2">{{message.timestamp}}</div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="flex w-full">
+    <input
+      id="chat-message-input"
+      class="w-full text-sm pl-2 focus:outline-none"
+      type="text"
+      placeholder="Write you message"
+    />
+    <button
+      onclick="message()"
+      id="chat-message-submit"
+      class="p-2 bg-blue-400 text-sm rounded-sm text-gray-900"
+    >
+      send
+    </button>
+  </div>
+</div>
+<p id="user-avatar" class="hidden">{{user.profile.avatar.url}}</p>
+
+
