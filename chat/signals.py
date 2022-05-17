@@ -1,6 +1,9 @@
+from arrow import get
 from django.db.models.signals import post_save
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.dispatch import receiver
+
+User = get_user_model()
 
 from .models import Profile
 

@@ -3,6 +3,11 @@ const url2 = `ws://${window.location.host}/ws/${online_user_id}/`;
 const p = document.createElement("p");
 
 const wSocket = new WebSocket(url2);
+const ul = document.getElementById("chat-log")
+ul.lastElementChild.scrollIntoView({
+    behavior: "smooth",
+    block: "end",
+})
 
 wSocket.onmessage = function (e) {
   const data = JSON.parse(e.data);

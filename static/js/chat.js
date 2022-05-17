@@ -2,12 +2,6 @@ const id = JSON.parse(document.getElementById("username-id").textContent);
 const userAvatar = document.getElementById("user-avatar").textContent;
 const url = `ws://${window.location.host}/ws/chat/${id}/`;
 const chatSocket = new WebSocket(url);
-const ulLast = document.getElementById("chat-log")
-ulLast.lastElementChild.scrollIntoView({
-  behavior: "smooth",
-  block: "end",
-})
-
 
 
 chatSocket.onmessage = function (e) {
@@ -29,9 +23,9 @@ chatSocket.onmessage = function (e) {
   img.alt = "user-avatar";
 
   div1.className = "flex space-x-2";
-  div3.className = "flex-none w-8 h-8 rounded-full overflow-hidden";
-  div4.className = "flex rounded-3xl text-sm py-2 px-4";
-  div2.className = "text-xs mt-2";
+  div3.className = "flex-none w-8 h-8 overflow-hidden rounded-full";
+  div4.className = "flex px-4 py-2 text-sm rounded-3xl";
+  div2.className = "mt-2 text-xs";
 
   div3.appendChild(img);
   div4.appendChild(p);
@@ -41,16 +35,16 @@ chatSocket.onmessage = function (e) {
     div1.append(div4);
     li.className = "flex flex-col items-end";
     p.className = "text-gray-900";
-    div4.classList.add("bg-sky-400");
+    div4.classList.add("bg-[#70A9A1]");
   } else {
     div1.append(div3, div4);
-    div4.classList.add("bg-gray-400");
+    div4.classList.add("bg-[#9EC1A3]");
     p.className = "text-black";
     li.className = "";
   }
 
-  p.innerHTML = data.message;
-  div2.innerHTML = currentTime;
+  p.textContent = data.message;
+  div2.textContent= currentTime;
 
   ul.appendChild(li);
 
@@ -60,6 +54,8 @@ chatSocket.onmessage = function (e) {
   });
 
 };
+
+
 
 
 

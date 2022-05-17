@@ -1,0 +1,28 @@
+<form 
+    x-data 
+    x-on:submit="$dispatch('workplace')" 
+    hx-post="{% url 'chat:workplace' username=user.username %}"
+    hx-swap="innerHTML"
+    hx-target="#workplace"
+>
+
+    <input 
+        required 
+        name="workplace" 
+        class="rounded-sm focus:ring-0 focus:border focus:border-[#70A9A1] w-[100%] text-xs py-1" 
+        type="text" 
+        placeholder="{{user.profile.workplace}}"
+    >
+    
+    <div class="flex justify-end mt-1">
+
+        <button 
+            type="submit" 
+            class="transition ease-in-out py-1 px-2 text-xs border border-[#70A9A1] hover:bg-[#70A9A1] rounded-sm hover:text-white"
+        >
+            Submit
+        </button>
+        
+    </div>
+        
+</form>

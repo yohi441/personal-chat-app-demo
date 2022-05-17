@@ -1,0 +1,26 @@
+<form hx-post="{% url 'chat:edit_bio_small' username=user.username %}"
+      hx-swap="innerHTML"
+      hx-target="#small-bio"
+>
+    <textarea name="bio" class='focus:ring-0 focus:border focus:border-[#70A9A1] text-xs w-full rounded-sm resize-none' rows="5">{{user.profile.bio}}</textarea>
+
+    <div class="flex justify-end mt-2 space-x-2">
+        
+        <button x-on:click="open=true" hx-get="{% url 'chat:htmx_edit_bio_small_cancel' %}"
+            hx-trigger="click"
+            hx-swap="innerHTML"
+            hx-target="#small-bio" class="py-1 px-2 text-xs border border-[#70A9A1] hover:bg-[#70A9A1] rounded-sm hover:text-white"
+        >
+            Cancel
+        </button>
+
+        <button 
+            x-on:click="open=true" 
+            type="submit" 
+            class="py-1 px-2 text-xs border border-[#70A9A1] hover:bg-[#70A9A1] rounded-sm hover:text-white"
+        >
+            Submit
+        </button>
+        
+    </div>
+</form>

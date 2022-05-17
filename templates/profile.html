@@ -1,0 +1,329 @@
+{% extends 'base_main.html'%} 
+{% block content %}
+<div
+  class="container flex max-w-3xl min-h-screen mx-auto border border-gray-400"
+>
+  <!--left-->
+  <div class="relative w-full sm:w-96">
+    <a href="{% url 'chat:index' %}">
+        <div class="absolute p-2 rounded-md cursor-pointer fill-gray-700 left-5 top-5 sm:top-2 sm:left-2 hover:bg-gray-300 hover:fill-gray-500">
+            <svg
+                class="w-5 h-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+            >
+                <path
+                d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z"
+                />
+            </svg>
+        </div>
+    </a>
+    <div class="flex items-center justify-center">
+
+        <div
+        class="flex justify-center w-56 h-56 mt-6 overflow-hidden rounded-full"
+        >
+            <img 
+                class="object-cover w-full h-full"
+                src="{{user.profile.avatar.url}}" 
+                alt="user-profile" 
+            />
+        </div>
+      
+    </div>
+
+    <div id="avatar-img" class="flex items-center justify-center overflow-auto">
+
+        {% if user.username == request.user.username %}
+            <div 
+                hx-get="{% url 'chat:htmx_edit_avatar' %}"
+                hx-swap="innerHTML"
+                hx-trigger="click"
+                hx-target="#avatar-img"
+                class="p-1 rounded-sm cursor-pointer hover:bg-gray-400 transition ease-in-out"
+            >
+                <svg 
+                    class="w-5 h-5 fill-gray-700" 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    viewBox="0 0 20 20"
+                >
+                    <path d="M0 6c0-1.1.9-2 2-2h3l2-2h6l2 2h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6zm10 10a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+
+                </svg>
+                
+            </div>
+        {% endif %}
+        
+    </div>
+
+    <div
+        x-data="{open:true}"
+        class="flex items-center justify-center px-5 mt-3 space-x-2"
+    >
+      <div id="username-edit">{{ user.username|title }}</div>
+
+        {% if user.username == request.user.username %}
+        <div 
+            x-on:click="open=false" 
+            x-show="open" 
+            hx-get="{% url 'chat:htmx_edit_username' %}"
+            hx-target="#username-edit"
+            hx-trigger="click"
+            hx-swap="innerHTML"
+            class="p-1 rounded-sm cursor-pointer hover:bg-gray-400 transition ease-in-out"
+        >
+            <svg 
+                class="w-4 h-4 fill-gray-700" 
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 20 20"
+            >
+                <path d="M12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4-2.3 2.3-4-4z"/>
+            </svg>
+            
+        </div>
+        {% endif %}
+        
+    </div>
+    
+
+    <div 
+        x-data="{show: true, open:true}" 
+        class="p-5 mt-6 sm:hidden"
+    >
+        <div class="flex items-center space-x-3">
+
+            <h2 class="text-2xl">Bio</h2>
+
+            {% if user.username == request.user.username %}
+                <div 
+                    x-show="open" 
+                    x-on:click="open=false" 
+                    hx-get="{% url 'chat:htmx_edit_bio_small' %}"
+                    hx-trigger="click"
+                    hx-swap="innerHTML"
+                    hx-target="#small-bio"
+                    class="p-1 rounded-sm cursor-pointer hover:bg-gray-400 transition ease-in-out"
+                >
+                    <svg 
+                        class="w-4 h-4 fill-gray-700" 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4-2.3 2.3-4-4z"/>
+                    </svg>
+
+                </div>
+            {% endif %}
+        
+        </div>
+ 
+       
+    <div id="small-bio">
+
+        <p :class="show ? 'line-clamp-3': '' " class="mt-4">
+            {{user.profile.bio|capfirst}}
+        </p>
+        {% if user.profile.bio|length > 50 %}
+            <button 
+                x-on:click="show=!show" 
+                x-text="show ? 'more...':'less...'" 
+                class="hover:bg-gray-300 cursor-pointer px-2 py-1 -ml-2 sm:hidden text-sky-600 transition ease-in-out hover:text-sky-400">
+            </button>
+        {% endif %}
+    
+    </div>
+      
+    </div>
+
+    <div class="p-5 space-y-3">
+
+        <h2 class="mb-4 text-2xl">Details</h2>
+
+        <div  
+            x-data="{edit:true, cancel:false}" 
+            x-on:current-city.window="edit=true, cancel=false" 
+            class="flex items-center justify-between"
+        >
+            <div class="flex items-center underline">Current City</div>
+            {% if user.username == request.user.username %}
+            <div 
+                x-show="edit" 
+                x-on:click="edit=false, cancel=true" 
+                hx-get="{% url "chat:htmx_edit_current_city" %}"
+                hx-trigger="click"
+                hx-swap="innerHTML"
+                hx-target="#current-city"
+                class="p-1 rounded-sm cursor-pointer hover:bg-gray-400 transition ease-in-out"
+            >
+                <svg 
+                    class="w-4 h-4 fill-gray-700" 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    viewBox="0 0 20 20"
+                >
+                    <path d="M12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4-2.3 2.3-4-4z"/>
+                </svg>
+                
+            </div>
+            {% endif %}
+
+            <div 
+                x-show="cancel" 
+                x-on:click="cancel=false, edit=true" 
+                hx-get="{% url "chat:htmx_edit_current_city_cancel" %}"
+                hx-trigger="click"
+                hx-swap="innerHTML"
+                hx-target="#current-city"
+                class="p-1 rounded-sm cursor-pointer hover:bg-gray-400 transition ease-in-out"
+            >
+                <svg 
+                    class="w-4 h-4 fill-gray-700" 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    viewBox="0 0 20 20"
+                >
+                    <path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"/>
+                </svg>
+            </div>
+        </div>
+      
+        <div id="current-city">{{user.profile.current_city|title}}</div>
+      
+      
+        <div 
+            x-data="{edit:true, cancel:false}" 
+            x-on:workplace.window="edit=true, cancel=false" 
+            class="flex items-center justify-between"
+        >
+            <div class="flex items-center underline">Workplace</div>
+
+            {% if user.username == request.user.username %}
+                <div 
+                    x-show="edit" 
+                    x-on:click="edit=false, cancel=true" 
+                    hx-get="{% url "chat:htmx_edit_workplace" %}"
+                    hx-trigger="click"
+                    hx-swap="innerHTML"
+                    hx-target="#workplace"
+                    class="p-1 rounded-sm cursor-pointer hover:bg-gray-400 transition ease-in-out"
+                >
+                    <svg 
+                        class="w-4 h-4 fill-gray-700" 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4-2.3 2.3-4-4z"/>
+                    </svg>
+                    
+                </div>
+            {% endif %}
+        
+            <div 
+                x-show="cancel" 
+                x-on:click="edit=true, cancel=false" 
+                hx-get="{% url "chat:htmx_edit_workplace_cancel" %}"
+                hx-trigger="click"
+                hx-swap="innerHTML"
+                hx-target="#workplace"
+                class="p-1 rounded-sm cursor-pointer hover:bg-gray-400 transition ease-in-out"
+            >
+
+                <svg 
+                    class="w-4 h-4 fill-gray-700" 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    viewBox="0 0 20 20"
+                >
+                    <path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"/>
+                </svg>
+            </div> 
+            
+        </div>
+        <div id="workplace">{{user.profile.workplace|title}}</div>
+      
+        <div 
+            x-data="{edit:true, cancel:false}" 
+            x-on:education.window="edit=true, cancel=false" 
+            class="flex items-center justify-between"
+        >
+            <div class="flex items-center underline">Education</div>
+
+            {% if user.username == request.user.username %}
+                <div 
+                    x-show="edit" 
+                    x-on:click="edit=false, cancel=true" 
+                    hx-get="{% url "chat:htmx_edit_education" %}"
+                    hx-trigger="click"
+                    hx-swap="innerHTML"
+                    hx-target="#education"
+                    class="p-1 rounded-sm cursor-pointer hover:bg-gray-400 transition ease-in-out"
+                >
+                    <svg 
+                        class="w-4 h-4 fill-gray-700" 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 20 20"
+                    >
+                        <path d="M12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4-2.3 2.3-4-4z"/>
+                    </svg>
+                    
+                </div>
+            {% endif %}
+
+            <div 
+                x-show="cancel" 
+                x-on:click="edit=true, cancel=false" 
+                hx-get="{% url "chat:htmx_edit_education_cancel" %}"
+                hx-trigger="click"
+                hx-swap="innerHTML"
+                hx-target="#education"
+                class="p-1 rounded-sm cursor-pointer hover:bg-gray-400 transition ease-in-out"
+            >
+                <svg 
+                class="w-4 h-4 fill-gray-700" 
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 20 20"
+                >
+                    <path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"/>
+                </svg>
+
+            </div> 
+
+        </div>
+
+        <div id="education">{{user.profile.education|title}}</div>
+        
+    </div>
+
+   
+  </div>
+
+  <!--right-->
+    <div x-data="{edit:true}" class="hidden border sm:block sm:w-full border-l-gray-400">
+
+        <div class="p-5 mt-6">
+            <h2 class="text-2xl">Bio</h2>
+            
+            <p id="bio" class="mt-6">
+                {{user.profile.bio|capfirst}}
+            </p>
+        </div>
+        
+        {% if user.username == request.user.username %}
+            <div 
+                class="flex justify-end mr-6"
+            >
+                <button
+                    id="edit-bio-lg-form"
+                    hx-get="{% url 'chat:htmx_edit_bio' %}"
+                    hx-swap="innerHTML"
+                    hx-target="#bio"
+                    hx-trigger="click"
+                    x-show="edit"
+                    x-on:click="edit=false"
+                    class="transition ease-in-out py-1 px-2 border border-[#70A9A1] hover:bg-[#70A9A1] rounded-sm hover:text-white"
+                >
+                    Edit
+                </button>
+            </div>
+        {% endif %}
+    </div>
+    
+</div>
+{% endblock %}

@@ -1,23 +1,32 @@
-{% load static %}
-
-</script>
 <!--right pane-->
-<div 
-  id="right-pane"
-  class="border border-red-500 w-full h-screen flex flex-col overflow-hidden"
->
+<div class="flex flex-col h-screen overflow-hidden border border-r-gray-400">
   <!--content-->
   <div
-    class="flex space-x-2 h-18 items-center border border-black p-2 bg-white"
+    class="relative flex items-center p-2 space-x-2 bg-gray-100 border h-18 border-b-gray-400"
   >
-    <div class="w-12 h-12 rounded-full overflow-hidden">
-      <img src="{{user.profile.avatar.url}}" alt="user-avatar" />
-    </div>
-    <p class="text-sm">{{username|title}}</p>
+    <a href="{% url 'chat:index' %}">
+      <div class="cursor-pointer sm:hidden">
+        <svg
+          class="w-4 h-4 fill-gray-700 hover:fill-gray-500 transition ease-in-out"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M3.828 9l6.071-6.071-1.414-1.414L0 10l.707.707 7.778 7.778 1.414-1.414L3.828 11H20V9H3.828z"
+          />
+        </svg>
+      </div>
+    </a>
+    <a class="flex items-center space-x-2 hover:bg-gray-300 text-gray-700 hover:text-gray-900 py-1 px-2 transition ease-in-out" href="{% url 'chat:profile' username=username %}">
+      <div class="w-12 h-12 overflow-hidden rounded-full">
+        <img src="{{user.profile.avatar.url}}" alt="user-avatar" />
+      </div>
+      <p class="text-sm">{{username|title}}</p>
+    </a>
   </div>
 
   <!--message-->
-  <div class="bg-slate-200 p-2 h-full overflow-auto">
+  <div class="h-full p-2 overflow-auto">
     <!--parent of the list-->
     <ul id="chat-log" class="flex flex-col space-y-3 text-sm">
       <li class="hidden"></li>
@@ -30,13 +39,13 @@
         <div class="flex space-x-2">
           {% if message.sender.id != request.user.id %}
           <!--div for img-->
-          <div class="flex-none w-8 h-8 rounded-full overflow-hidden">
+          <div class="flex-none w-8 h-8 overflow-hidden rounded-full">
             <img src="{{username.profile.avatar.url}}" alt="user-avatar" />
           </div>
           {% endif %}
           <!--div message-->
           <div
-            class="overflow-hidden flex rounded-3xl text-sm py-2 px-4 {% if message.sender.id == request.user.id %}bg-sky-400{% else %}bg-gray-400{% endif %}"
+            class="overflow-hidden flex rounded-3xl text-sm py-2 px-4 {% if message.sender.id == request.user.id %}bg-[#70A9A1]{% else %}bg-[#9EC1A3]{% endif %}"
           >
             <!--p tag for message-->
             <p
@@ -47,7 +56,7 @@
           </div>
         </div>
         <!--div for timestamp-->
-        <div class="text-xs mt-2">{{message.timestamp}}</div>
+        <div class="mt-2 text-xs">{{message.timestamp}}</div>
       </li>
       {% endfor %}
     </ul>
@@ -55,19 +64,17 @@
   <div class="flex w-full">
     <input
       id="chat-message-input"
-      class="w-full text-sm pl-2 focus:outline-none"
+      class="w-full pl-2 text-sm border-x-0 focus:border-gray-500 focus:ring-0"
       type="text"
       placeholder="Write you message"
     />
     <button
       onclick="message()"
       id="chat-message-submit"
-      class="p-2 bg-blue-400 text-sm rounded-sm text-gray-900"
+      class="p-2 text-sm hover:text-gray-900 bg-[#0a5e7c] hover:bg-[#40798C] rounded-sm transition ease-in-out text-gray-200"
     >
       send
     </button>
   </div>
+  <p id="user-avatar" class="hidden">{{user.profile.avatar.url}}</p>
 </div>
-<p id="user-avatar" class="hidden">{{user.profile.avatar.url}}</p>
-
-

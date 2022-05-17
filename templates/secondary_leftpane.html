@@ -1,6 +1,7 @@
 <!--secondary-left pane-->
-<div class="border border-blue-500 w-24 p-2 sm:w-72 h-screen overflow-auto">
+<div class="w-24 p-2 sm:w-72 h-screen overflow-auto border border-r-gray-400">
     <!--profile avatar-->
+    <a href="{% url 'chat:index' %}">
     <div class="flex justify-center sm:flex sm:justify-start sm:space-x-3">
       <div class="w-12 h-12 rounded-full overflow-hidden">
         <img src="{{request.user.profile.avatar.url}}" alt="user-avatar" />
@@ -9,6 +10,7 @@
         {{request.user.username|title}}
       </div>
     </div>
+    </a>
     <div class="sm:hidden border-t-2 border-gray-700 mt-2 text-center pt-2"></div>
     <div class="hidden sm:block border-t-2 border-gray-700 mt-2 text-center pt-2 text-gray-600">List of registered users</div>
   

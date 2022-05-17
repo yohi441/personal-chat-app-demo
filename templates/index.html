@@ -1,5 +1,6 @@
-{% extends 'base.html'%} {% block content %}
-<div class="container mx-auto max-w-3xl border border-black min-h-screen flex">
-  {% include 'leftpane.html' %}
+{% extends 'base_main.html'%} {% block content %}
+<div class="container flex max-w-3xl min-h-screen mx-auto">
+  <div x-cloak x-data="{}" class="w-full sm:w-auto ">{% include 'leftpane.html' %}</div>
+  <div class="hidden sm:block" x-cloak x-data="{open:true}" x-show="open">{% include 'user_profile.html' %}</div>
 </div>
 {% endblock %}

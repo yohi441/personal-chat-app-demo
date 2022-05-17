@@ -12,6 +12,10 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(
         upload_to="avatar/", default="avatar/default.png")
+    bio = models.TextField(max_length=1000, null=True, blank=True)
+    current_city = models.CharField(max_length=225, null=True, blank=True)
+    workplace = models.CharField(max_length=225, null=True, blank=True)
+    education = models.CharField(max_length=225, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     online_status_count = models.IntegerField(default=0)
