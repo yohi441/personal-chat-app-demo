@@ -1,13 +1,11 @@
-{% load static %} {% load tailwind_tags %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    {% tailwind_css %}
-   
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="{% static 'js/htmx-org-1.7.0.min.js' %}" defer></script>
     <script src="{% static 'js/alpinjs-3.10.2.min.js' %}" defer></script>
     <title>Document</title>
