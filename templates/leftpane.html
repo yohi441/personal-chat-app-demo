@@ -3,9 +3,13 @@
   <!--profile avatar-->
   
   <div class="flex items-center justify-between sm:flex ">
-    <a class="flex space-x-2 transition ease-in-out hover:text-gray-500 py-1 px-2 hover:bg-gray-300 text-gray-700" href="{% url 'chat:index' %}">
+    <a class="flex px-2 py-1 space-x-2 text-gray-700 transition ease-in-out hover:text-gray-500 hover:bg-gray-300" href="{% url 'chat:index' %}">
       <div class="w-12 h-12 overflow-hidden rounded-full">
-        <img src="{{request.user.profile.avatar.url}}" alt="user-avatar" />
+        <img src="{% if request.user.profile.avatar.url is not null %}
+                    {{request.user.profile.avatar.url}}
+                  {% else %}
+                    https://res.cloudinary.com/derqjgcyg/image/upload/v1645411542/media/avatar/default_rvyiey.jpg
+                  {% endif %}" alt="user-avatar" />
       </div>
       <div class="flex items-center sm:flex sm:items-center">
         {{request.user.username|title}}
@@ -15,7 +19,7 @@
       {% csrf_token %}
       <div x-data="{open:false}" class="relative flex items-center">
         
-        <div class="cursor-pointer transition ease-in-out hover:bg-gray-300 fill-gray-700 hover:fill-gray-500">
+        <div class="transition ease-in-out cursor-pointer sm:hidden hover:bg-gray-300 fill-gray-700 hover:fill-gray-500">
           <svg x-on:click="open=!open" x-on:click.outside="open=false"
             class="w-8 h-8"
             xmlns="http://www.w3.org/2000/svg" 
@@ -24,7 +28,11 @@
           </svg>
         </div>
         
-        <div class="absolute z-30 flex flex-col items-start w-20 overflow-hidden text-gray-700 bg-white rounded-md shadow-md right-1 top-8" x-show="open">
+        <div 
+          class="absolute z-30 flex flex-col items-start w-20 overflow-hidden text-gray-700 bg-white rounded-md shadow-md sm:hidden right-1 top-8" 
+          x-show="open"
+          x-transition.duration.300ms
+        >
           <a href="{% url 'chat:profile' username=request.user.username %}" class="transition ease-in-out flex justify-center w-full py-2 hover:text-white hover:bg-[#40798C]">Profile</a>
           <button type="submit" class="w-full py-2 hover:text-white hover:bg-[#40798C] transition ease-in-out">Logout</button>
         </div>
@@ -56,7 +64,6 @@
           {% if user.username == user_count.username %}
             {% if user_count.count > 0 %}
         <p
-          id="hey{{user.id}}"
           class="absolute z-20 px-2 py-1 text-xs font-semibold text-white bg-red-600 border-4 border-white rounded-full -right-1 -top-2"
         >
           {{ user_count.count }}
@@ -66,7 +73,11 @@
         {% endfor %}
         <div class="flex items-center space-x-2">
           <div class="relative w-12 h-12 overflow-hidden rounded-full">
-            <img src="{{user.profile.avatar.url}}" alt="user-avatar" />
+            <img src="{% if user.profile.avatar.url is not null %}
+                    {{user.profile.avatar.url}}
+                  {% else %}
+                    https://res.cloudinary.com/derqjgcyg/image/upload/v1645411542/media/avatar/default_rvyiey.jpg
+                  {% endif %}" alt="user-avatar" />
           </div>
           <div class="flex items-center sm:flex sm:items-center">
             {{user.username|title|truncatechars:13}}

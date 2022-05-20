@@ -1,7 +1,7 @@
 <form
   action="{% url 'chat:avatar' username=user.username %}"
   method="POST"
-  class="flex flex-col items-center justify-center my-3 text-xs"
+  class="flex flex-col items-center justify-center my-3 text-xs transition-opacity delay-200 htmx-added:opacity-0"
   enctype="multipart/form-data"
 >
   {% csrf_token %} 
@@ -10,7 +10,7 @@
   <div class="flex space-x-2">
     <button
     type="submit"
-    class="px-2 py-1 mt-3 border border-gray-300 rounded-md hover:border-gray-500 hover:bg-gray-300 transition ease-in-out hover:text-gray-500"
+    class="px-2 py-1 mt-3 transition ease-in-out border border-gray-300 rounded-md hover:border-gray-500 hover:bg-gray-300 hover:text-gray-500"
     >
     Submit
     </button>
@@ -18,8 +18,8 @@
     hx-get="{% url 'chat:htmx_avatar_cancel' %}"
     hx-target="#avatar-img"
     hx-trigger="click"
-    hx-swap="innerHTML"
-    class="px-2 py-1 mt-3 border border-gray-300 rounded-md hover:border-gray-500 hover:bg-gray-300 transition ease-in-out hover:text-gray-500"
+    hx-swap="innerHTML settle"
+    class="px-2 py-1 mt-3 transition ease-in-out border border-gray-300 rounded-md hover:border-gray-500 hover:bg-gray-300 hover:text-gray-500"
     >
     Cancel
     </button>

@@ -2,6 +2,7 @@
     hx-post="{% url 'chat:username' pk=request.user.pk %}"
     hx-swap="innerHTML"
     hx-target="#username-edit"
+    class = "transition-opacity delay-200 htmx-added:opacity-0"
    
 >
 
@@ -22,7 +23,7 @@
       hx-get="{% url 'chat:htmx_edit_username_cancel' %}"
       hx-target="#username-edit"
       hx-trigger="click"
-      hx-swap="innerHTML"
+      hx-swap="innerHTML settle"
       x-on:click="open=true"
       class="w-auto cursor-pointer text-xs py-1 px-2 border border-[#70A9A1] hover:bg-[#70A9A1] rounded-sm hover:text-white"
     >

@@ -7,7 +7,7 @@
     <a href="{% url 'chat:index' %}">
       <div class="cursor-pointer sm:hidden">
         <svg
-          class="w-4 h-4 fill-gray-700 hover:fill-gray-500 transition ease-in-out"
+          class="w-4 h-4 transition ease-in-out fill-gray-700 hover:fill-gray-500"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
         >
@@ -17,9 +17,13 @@
         </svg>
       </div>
     </a>
-    <a class="flex items-center space-x-2 hover:bg-gray-300 text-gray-700 hover:text-gray-900 py-1 px-2 transition ease-in-out" href="{% url 'chat:profile' username=username %}">
+    <a class="flex items-center px-2 py-1 space-x-2 text-gray-700 transition ease-in-out hover:bg-gray-300 hover:text-gray-900" href="{% url 'chat:profile' username=username %}">
       <div class="w-12 h-12 overflow-hidden rounded-full">
-        <img src="{{user.profile.avatar.url}}" alt="user-avatar" />
+        <img src="{% if user.profile.avatar.url is not null %}
+                    {{user.profile.avatar.url}}
+                  {% else %}
+                    https://res.cloudinary.com/derqjgcyg/image/upload/v1645411542/media/avatar/default_rvyiey.jpg
+                  {% endif %}" alt="user-avatar" />
       </div>
       <p class="text-sm">{{username|title}}</p>
     </a>
@@ -40,7 +44,12 @@
           {% if message.sender.id != request.user.id %}
           <!--div for img-->
           <div class="flex-none w-8 h-8 overflow-hidden rounded-full">
-            <img src="{{username.profile.avatar.url}}" alt="user-avatar" />
+                <img src="{% if username.profile.avatar.url is not null %}
+                    {{username.profile.avatar.url}}
+                  {% else %}
+                    https://res.cloudinary.com/derqjgcyg/image/upload/v1645411542/media/avatar/default_rvyiey.jpg
+                  {% endif %}" 
+                  alt="user-avatar" />
           </div>
           {% endif %}
           <!--div message-->
@@ -76,5 +85,11 @@
       send
     </button>
   </div>
-  <p id="user-avatar" class="hidden">{{user.profile.avatar.url}}</p>
+  <p id="user-avatar" class="hidden">
+    {% if user.profile.avatar.url is not null %}
+      {{user.profile.avatar.url}}
+    {% else %}
+      https://res.cloudinary.com/derqjgcyg/image/upload/v1645411542/media/avatar/default_rvyiey.jpg
+    {% endif %}
+    </p>
 </div>

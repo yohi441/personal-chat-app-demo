@@ -4,6 +4,7 @@ x-on:submit="$dispatch('education')"
 hx-post="{% url 'chat:education' username=user.username %}"
 hx-swap="innerHTML"
 hx-target="#education"
+class="transition-opacity delay-200 htmx-added:opacity-0"
 >
     <input 
         required 

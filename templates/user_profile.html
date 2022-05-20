@@ -2,19 +2,29 @@
 <div
   class="container relative w-full h-screen px-6 py-8 border border-r-gray-400"
 >
-    <a href="{% url 'chat:profile' username=request.user.username %}">
-        <div class="py-2 px-2 absolute cursor-pointer top-4 right-3 fill-gray-700 hover:bg-gray-300 hover:fill-gray-500 transition ease-in-out">
-        <svg
-            class="w-5 h-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-        >
-            <path
-            d="M16.172 9l-6.071-6.071 1.414-1.414L20 10l-.707.707-7.778 7.778-1.414-1.414L16.172 11H0V9z"
-            />
-        </svg>
+    <form method="POST" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        <div x-data="{open:false}" class="relative flex items-center justify-end">
+          
+          <div class="transition ease-in-out cursor-pointer hover:bg-gray-300 fill-gray-700 hover:fill-gray-500">
+            <svg x-on:click="open=!open" x-on:click.outside="open=false"
+              class="w-8 h-8"
+              xmlns="http://www.w3.org/2000/svg" 
+              viewBox="0 0 20 20">
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+            </svg>
+          </div>
+          
+          <div 
+            class="absolute z-30 flex flex-col items-start w-20 overflow-hidden text-gray-700 bg-white rounded-md shadow-md right-1 top-8" 
+            x-show="open"
+            x-transition.duration.300ms
+          >
+            <a href="{% url 'chat:profile' username=request.user.username %}" class="transition ease-in-out flex justify-center w-full py-2 hover:text-white hover:bg-[#40798C]">Profile</a>
+            <button type="submit" class="w-full py-2 hover:text-white hover:bg-[#40798C] transition ease-in-out">Logout</button>
+          </div>
         </div>
-    </a>
+      </form> 
     <div class="w-full mt-10">
         <div>
             <p>

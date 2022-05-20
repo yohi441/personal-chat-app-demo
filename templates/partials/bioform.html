@@ -4,7 +4,7 @@
     hx-post="{% url 'chat:edit_bio' username=user.username %}"
     hx-swap="innerHTML"
     hx-target="#bio"
-    class="transition ease-in-out delay-500"
+    class="transition-opacity delay-200 htmx-added:opacity-0"
 >
     <textarea name="bio" class="w-full mt-6 rounded-md resize-none focus:border-gray-400 focus:border focus:ring-0" rows="5">{{user.profile.bio}}</textarea>
     
@@ -13,14 +13,19 @@
     <div class="flex justify-end p-1 mt-2 space-x-2">
         <button
             hx-get="{% url 'chat:htmx_edit_bio_cancel' %}"
-            hx-swap="innerHTML"
+            hx-swap="innerHTML settle"
             hx-target="#bio"
             hx-trigger="click"
             class="transition ease-in-out py-1 px-2 border border-[#70A9A1] hover:bg-[#70A9A1] rounded-sm hover:text-white"
         >
             Cancel
         </button>
-        <button type="submit" class="transition ease-in-out py-1 px-2 border border-[#70A9A1] hover:bg-[#70A9A1] rounded-sm hover:text-white">Submit</button>
+        <button
+            type="submit"
+            class="transition ease-in-out py-1 px-2 border border-[#70A9A1] hover:bg-[#70A9A1] rounded-sm hover:text-white"
+        >
+            Submit
+        </button>
     </div>
 </form>
 

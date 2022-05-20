@@ -1,5 +1,10 @@
 
-<p x-init="edit=true">{{user.profile.bio|capfirst}}</p>
+<p
+    x-init="edit=true"
+    class="htmx-added:opacity-0 transition-opacity delay-200"
+>
+    {{user.profile.bio|capfirst}}
+</p>
 
 
 <div 

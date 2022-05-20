@@ -4,6 +4,7 @@
     hx-post="{% url 'chat:current_city' username=user.username %}"
     hx-swap="innerHTML"
     hx-target="#current-city"
+    class="transition-opacity delay-200 htmx-added:opacity-0"
 >
     
     <input 

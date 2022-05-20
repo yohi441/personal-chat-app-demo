@@ -13,7 +13,7 @@ wSocket.onmessage = function (e) {
   const data = JSON.parse(e.data);
   const status_id = data.user_id;
   const status = document.querySelector("#status" + CSS.escape(status_id));
-
+  console.log(data);
   if (data.message === "True") {
     status.classList.remove("bg-gray-500");
     status.classList.remove("bg-green-500");

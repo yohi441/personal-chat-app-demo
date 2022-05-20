@@ -1,8 +1,8 @@
-<p :class="show ? 'line-clamp-3': '' " class="mt-4">
+<p class="transition-opacity delay-200 htmx-added:opacity-0" :class="show ? 'line-clamp-3': '' " class="mt-4">
     {{user.profile.bio|capfirst}}
 </p>
 {% if user.profile.bio|length > 50 %}
-    <div x-on:click="show=!show" x-text="show ? 'more...':'less...'" class="hover:bg-gray-300 cursor-pointer px-2 py-1 -ml-2 sm:hidden text-sky-600 transition ease-in-out hover:text-sky-400"></div>
+    <div x-on:click="show=!show" x-text="show ? 'more...':'less...'" class="px-2 py-1 -ml-2 transition ease-in-out cursor-pointer hover:bg-gray-300 sm:hidden text-sky-600 hover:text-sky-400"></div>
 {% endif %}
 
 

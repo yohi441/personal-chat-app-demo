@@ -4,6 +4,7 @@
     hx-post="{% url 'chat:workplace' username=user.username %}"
     hx-swap="innerHTML"
     hx-target="#workplace"
+    class="transition-opacity delay-200 htmx-added:opacity-0"
 >
 
     <input 

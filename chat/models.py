@@ -10,8 +10,7 @@ User = get_user_model()
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(
-        upload_to="avatar/", default="avatar/default.png")
+    avatar = models.ImageField(upload_to="avatar/", null=True, blank=True)
     bio = models.TextField(max_length=1000, null=True, blank=True)
     current_city = models.CharField(max_length=225, null=True, blank=True)
     workplace = models.CharField(max_length=225, null=True, blank=True)

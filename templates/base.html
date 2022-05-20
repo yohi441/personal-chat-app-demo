@@ -1,4 +1,4 @@
-{% load static %} 
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,20 +6,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-    
-    <title>Document</title>
-  
+    <script src="{% static 'js/htmx-org-1.7.0.min.js' %}" defer></script>
+    <script src="{% static 'js/alpinjs-3.10.2.min.js' %}" defer></script>
+    <title>Chatapp-demo</title>
+    <style>
+      [x-cloak] { display: none !important; }
+    </style>
   </head>
 
   <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-    <div class="bg-neutral-100">
+    <div class="bg-neutral-200">
       {% block content %} {% endblock %}
     </div>
-  
+    
+    <p id="online-user-id" class="hidden">{{request.user.id}}</p>
+      
   </body>
   
-
+  {{ username.id|json_script:'username-id'}}
+  <script src="{% static 'js/chat.js' %}" defer></script>
+  <script src="{% static 'js/online-status.js' %}" defer></script>
 
    
 </html>
