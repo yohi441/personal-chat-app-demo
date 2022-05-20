@@ -37,7 +37,7 @@ class IndexView(LoginRequiredMixin, View):
     template_name = 'index.html'
 
     def get(self, request):
-        users = User.objects.exclude(username=request.user.username)
+        users = User.objects.filter(is_superuser=False).exclude(username=request.user.username)
 
         context = {
             'users': users,
@@ -52,7 +52,7 @@ class PersonalChatView(LoginRequiredMixin, View):
 
     def get(self, request, username):
         username = get_object_or_404(User, username=username)
-        users = User.objects.exclude(username=request.user.username)
+        users = User.objects.filter(is_superuser=False).exclude(username=request.user.username)
         user = User.objects.get(username=username)
 
         if request.user.id > username.id:
