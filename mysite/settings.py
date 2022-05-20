@@ -72,29 +72,23 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'mysite.wsgi.application'
 ASGI_APPLICATION = 'mysite.asgi.application'
 
 # Channel layer redis
-if DEBUG:
-    CHANNEL_LAYERS = {
-        'default': {
-            'BACKEND': 'channels_redis.core.RedisChannelLayer',
-            'CONFIG': {
-                "hosts": [("127.0.0.1", 6379)],
-            },
-        },
+    # CHANNEL_LAYERS = {
+    #     'default': {
+    #         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+    #         'CONFIG': {
+    #             "hosts": [config('REDIS')],
+    #         },
+    #     },
+    # }
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
     }
-    
-else:
-    CHANNEL_LAYERS = {
-        'default': {
-            'BACKEND': 'channels_redis.core.RedisChannelLayer',
-            'CONFIG': {
-                "hosts": [config('REDIS')],
-            },
-        },
-    }
+}
     
 
 CLOUDINARY_STORAGE = {
