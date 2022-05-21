@@ -75,21 +75,20 @@ TEMPLATES = [
 ASGI_APPLICATION = 'mysite.asgi.application'
 
 #Channels Layers
-if DEBUG:
-    CHANNEL_LAYERS = {
+CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
 }
-else:
-    CHANNEL_LAYERS = {
-        'default': {
-            'BACKEND': 'channels_redis.core.RedisChannelLayer',
-            'CONFIG': {
-                "hosts": [config('REDIS')],
-            },
-        },
-    }
+}
+# else:
+#     CHANNEL_LAYERS = {
+#         'default': {
+#             'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#             'CONFIG': {
+#                 "hosts": [config('REDIS')],
+#             },
+#         },
+#     }
 
 
     
