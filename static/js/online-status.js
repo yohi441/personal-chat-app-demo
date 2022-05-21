@@ -2,7 +2,7 @@ const online_user_id = document.getElementById("online-user-id").textContent;
 const url2 = `ws://${window.location.host}/ws/${online_user_id}/`;
 const p = document.createElement("p");
 
-const wSocket = new WebSocket(url2);
+const wSocket = new ReconnectingWebSocket(url2);
 const ul = document.getElementById("chat-log")
 ul.lastElementChild.scrollIntoView({
     behavior: "smooth",

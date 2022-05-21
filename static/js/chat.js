@@ -1,7 +1,7 @@
 const id = JSON.parse(document.getElementById("username-id").textContent);
 const userAvatar = document.getElementById("user-avatar").textContent;
 const url = `ws://${window.location.host}/ws/chat/${id}/`;
-const chatSocket = new WebSocket(url);
+const chatSocket = new ReconnectingWebSocket(url);
 
 
 chatSocket.onmessage = function (e) {
