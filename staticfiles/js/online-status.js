@@ -2,7 +2,7 @@ const online_user_id = document.getElementById("online-user-id").textContent;
 const url2 = `ws://${window.location.host}/ws/${online_user_id}/`;
 const p = document.createElement("p");
 
-const wSocket = new ReconnectingWebSocket(url2);
+const wSocket = new WebSocket(url2);
 const ul = document.getElementById("chat-log")
 ul.lastElementChild.scrollIntoView({
     behavior: "smooth",
@@ -13,7 +13,6 @@ wSocket.onmessage = function (e) {
   const data = JSON.parse(e.data);
   const status_id = data.user_id;
   const status = document.querySelector("#status" + CSS.escape(status_id));
-  console.log(data);
   if (data.message === "True") {
     status.classList.remove("bg-gray-500");
     status.classList.remove("bg-green-500");

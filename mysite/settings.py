@@ -75,20 +75,21 @@ TEMPLATES = [
 ASGI_APPLICATION = 'mysite.asgi.application'
 
 #Channels Layers
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-}
-}
-# else:
-#     CHANNEL_LAYERS = {
-#         'default': {
-#             'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#             'CONFIG': {
-#                 "hosts": [config('REDIS')],
-#             },
-#         },
-#     }
+if DEBUG:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer"
+        }
+    }
+else:
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                "hosts": [('127.0.0.1', 6379)],
+            },
+        },
+    }
 
 
     
@@ -115,9 +116,14 @@ if DEBUG:
 else:
 
     DATABASES = {
-        'default': dj_database_url.config(
-            default=config('DATABASE_URL')
-        )
+        'default': {
+            'ENGINE':'django.db.backends.postgresql_psycopg2',
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST'),
+            'PORT': '',
+        }
     }
 
 
