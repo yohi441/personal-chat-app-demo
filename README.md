@@ -2,7 +2,7 @@
 
 This is a demo chat app. <br /> 
 You can chat to all registered user in the app. <br />
-Basic authentication and authenticate using email
+Basic authentication and authenticate using email <br />
 Basic function of a chat app like sending message in realtime <br />
 
 This project was created with:
