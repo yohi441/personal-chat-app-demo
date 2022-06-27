@@ -22,6 +22,6 @@ Images files is hosted in cloudinary
 This project is hosted:
 * google cloud platform
 
-The link of the app https://perchatappdemo.tk/ <br />
+The link of the app http://35.193.38.197 <br />
 <br />
 
